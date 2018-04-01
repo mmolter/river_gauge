@@ -23,6 +23,7 @@ def mapit(x, in_min, in_max, out_min, out_max):
 
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+
 def set_gauge(level):
     ''' Set gauge dial to specified level (ft). '''
     
@@ -63,7 +64,7 @@ if __name__ == '__main__':
                       'It has recovered and will try again in 30 minutes' % e)
             
     try:
-        set_gauge(level):
+        set_gauge(level)
     except Exception as e:
         logging.error('Onion encountered an unknown error (%s) while setting the'
                       ' gauage. It has recovered and will try again in 30 minutes.' % e)
