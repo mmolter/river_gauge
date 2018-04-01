@@ -1,18 +1,22 @@
-import re, os
+import logging
+import os
+import re
 import time
 import urllib2
-import logging
-import pandas as pd
 
 def get_river_level():
     ''' Return river level (ft) at PIAI2 river gauage. '''
 
     url = 'https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=piai2&output=tabular'
+    
+    response = urllib2.urlopen(url)
 
-    df = pd.read_html(url, skiprows=2)[1]
-    raw = df[1].iloc[0]
-
-    return float(re.search(r'(\d+\.?\d+)', raw).group(0))
+    for line in response:
+        match = re.search(r'<td nowrap>(\d+\.?\d+)ft</td>', line)
+        if match:
+            return float(match.group(1))
+    else:
+        raise AttributeError('Invalid response from NOAA')
 
 def mapit(x, in_min, in_max, out_min, out_max):
     ''' Scale range of input x. '''
