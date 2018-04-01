@@ -47,7 +47,6 @@ if __name__ == '__main__':
     
     
     level = 0
-    logging.debug('Attempting to retrieve new river data...')
         
     try:
         level = get_river_level()
