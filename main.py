@@ -28,7 +28,7 @@ def set_gauge(level):
     ''' Set gauge dial to specified level (ft). '''
     
     pin = 0
-    freq = 50
+    freq = 25
     
     min_level = 1
     max_level = 30
