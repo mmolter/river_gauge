@@ -62,3 +62,8 @@ if __name__ == '__main__':
         logging.error('Onion encountered an unknown error (%s) while retrieving data. '
                       'It has recovered and will try again in 30 minutes' % e)
             
+    try:
+        set_gauge(level):
+    except Exception as e:
+        logging.error('Onion encountered an unknown error (%s) while setting the'
+                      ' gauage. It has recovered and will try again in 30 minutes.' % e)
