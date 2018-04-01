@@ -42,7 +42,7 @@ def set_gauge(level):
     
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='river_gauge.log', level=logging.DEBUG,
+    logging.basicConfig(filename='/root/river_gauge/river_gauge.log', level=logging.DEBUG,
                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     
     
