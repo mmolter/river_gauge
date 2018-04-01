@@ -44,25 +44,21 @@ if __name__ == '__main__':
     logging.basicConfig(filename='river_gauge.log', level=logging.DEBUG,
                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     
-    logging.debug('Starting river monitoring program...')
     
     level = 0
-    
-    while True:
-        logging.debug('Attempting to retrieve new river data...')
+    logging.debug('Attempting to retrieve new river data...')
         
-        try:
-            level = get_river_level()
-            logging.info('PIAI2 river level at %.2f ft.' % level)
+    try:
+        level = get_river_level()
+        logging.info('PIAI2 river level at %.2f ft.' % level)
+        
+    except urllib2.URLError:
+        logging.error('Network error, could not reach NOAA site.')
+        
+    except AttributeError:
+        logging.error('NOAA returned an invalid response, try again later.')
+        
+    except Exception as e:
+        logging.error('Onion encountered an unknown error (%s) while retrieving data. '
+                      'It has recovered and will try again in 30 minutes' % e)
             
-        except urllib2.URLError:
-            logging.error('Network error, could not reach NOAA site.')
-            
-        except AttributeError:
-            logging.error('NOAA returned an invalid response, try again later.')
-            
-        except Exception as e:
-            logging.error('Onion encountered an unknown error (%s) while retrieving data. '
-                          'It has recovered and will try again in 30 minutes' % e)
-            
-        time.sleep(15 * 60)
