@@ -8,7 +8,6 @@ def get_river_level():
     ''' Return river level (ft) at PIAI2 river gauage. '''
 
     url = 'https://water.weather.gov/ahps2/hydrograph_to_xml.php?gage=piai2&output=tabular'
-    
     response = urllib2.urlopen(url)
 
     for line in response:
@@ -23,31 +22,19 @@ def mapit(x, in_min, in_max, out_min, out_max):
 
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-
-def set_gauge(level):
+def set_gauge(level, pin=0, freq=25, min_level=1, max_level=30, min_pwm=1, max_pwm=77):
     ''' Set gauge dial to specified level (ft). '''
     
-    pin = 0
-    freq = 25
-    
-    min_level = 1
-    max_level = 30
-    
-    min_pwm = 1
-    max_pwm = 77
-    
-    pwm = mapit(level, min_level, max_level, min_pwm, max_pwm)
-        
+    pwm = mapit(level, min_level, max_level, min_pwm, max_pwm)        
     os.system('fast-gpio pwm %s %s %s' % (pin, freq, pwm))
-    
 
 if __name__ == '__main__':
-    logging.basicConfig(filename='/root/river_gauge/river_gauge.log', level=logging.DEBUG,
-                       format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
-    
+    logging.basicConfig(filename='/root/river_gauge/river_gauge.log', 
+                        level=logging.DEBUG,
+                        format='%(asctime)s %(message)s', 
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
     
     level = 0
-        
     try:
         level = get_river_level()
         logging.info('PIAI2 river level at %.2f ft.' % level)
